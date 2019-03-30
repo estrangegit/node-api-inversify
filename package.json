@@ -1,0 +1,43 @@
+{
+  "name": "node-api-inversify",
+  "version": "1.0.0",
+  "description": "Examples for using inversify with expressjs",
+  "author": "eestrang",
+  "license": "0BSD",
+  "main": "./dist/app",
+  "types": "./dist/app",
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "npm run clean && npm run build && node ./dist/app.js",
+    "build": "tsc --pretty",
+    "watch:build": "tsc --watch",
+    "test": "nyc --clean --all --require ts-node/register --require reflect-metadata/Reflect --extension .ts -- mocha --exit --timeout 5000",
+    "test:all": "npm test **/*.spec.ts"
+  },
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "latest",
+    "inversify": "latest",
+    "inversify-binding-decorators": "latest",
+    "inversify-express-utils": "latest",
+    "reflect-metadata": "latest"
+  },
+  "devDependencies": {
+    "@types/bluebird": "latest",
+    "@types/body-parser": "latest",
+    "@types/chai": "latest",
+    "@types/express": "latest",
+    "@types/mocha": "latest",
+    "chai": "latest",
+    "mocha": "latest",
+    "nyc": "latest",
+    "rimraf": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.ts"
+    ]
+  }
+}
