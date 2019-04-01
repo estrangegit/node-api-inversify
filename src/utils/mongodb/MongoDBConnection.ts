@@ -8,18 +8,22 @@ export class MongoDBConnection {
   private static db: Db;
 
   public static async getConnection(): Promise<Db> {
-    if (this.isConnected) {
-      return this.db;
+    if (MongoDBConnection.isConnected) {
+      return MongoDBConnection.db;
     } else {
-      this.db = await this.connect();
-      this.isConnected = true;
-      return this.db;
+      MongoDBConnection.db = await this.connect();
+      MongoDBConnection.isConnected = true;
+      return MongoDBConnection.db;
     }
   }
 
   private static async connect(): Promise<Db> {
-    const client: MongoClient = await MongoClient.connect(connStr);
-    const db: Db = await client.db(dbName);
-    return db;
+    try{
+      const client: MongoClient = await MongoClient.connect(connStr);
+      const db: Db = await client.db(dbName);
+      return db;
+    }catch(err){
+      console.log(err);
+    }
   }
 }

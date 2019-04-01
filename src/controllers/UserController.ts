@@ -1,5 +1,5 @@
 import {
-  controller, httpGet, httpPost, httpPut, httpDelete
+  controller, httpGet, httpPost, requestParam, httpPut
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { Request, Response, NextFunction } from 'express';
@@ -13,28 +13,21 @@ export class UserController {
   @inject(TYPES.UserService) private readonly userService: IUserService;
 
   @httpGet('/')
-  public async getUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const users: User[] =  await this.userService.getUsers();
+  public async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const users: User[] =  await this.userService.getAllUsers();
     res.send(users);
   }
 
-  @httpGet('/:id')
-  public getUser(request: Request): User {
-    return this.userService.getUser(request.params.id);
-  }
-
   @httpPost('/')
-  public newUser(request: Request): User {
-    return this.userService.newUser(request.body);
+  public async addUser (req: Request, res: Response, next: NextFunction): Promise<void> {
+    const user: User = new User(undefined, req.body.name, req.body.email, req.body.password);
+    await this.userService.addUser(user);
+    res.status(204).send();
   }
 
   @httpPut('/:id')
-  public updateUser(request: Request): User {
-    return this.userService.updateUser(request.params.id, request.body);
-  }
-
-  @httpDelete('/:id')
-  public deleteUser(request: Request): string {
-    return this.userService.deleteUser(request.params.id);
+  public async updateUser(@requestParam('id') id: string, req: Request, res: Response, next: NextFunction): Promise<void> {
+    const user: User = new User(undefined, req.body.name, req.body.email, req.body.password);
+    await this.userService.updateUser(id, user);
   }
 }

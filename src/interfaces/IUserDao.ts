@@ -1,3 +1,8 @@
+import { User } from '../entities/User';
+import { InsertOneWriteOpResult, UpdateWriteOpResult } from 'mongodb';
+
 export interface IUserDao {
-    find<User>(filter: Object): Promise<User[]>
+    getAllUsers(): Promise<User[]>;
+    addUser(user: User): Promise<InsertOneWriteOpResult>;
+    updateUser(id: string, user: User): Promise<UpdateWriteOpResult>;
 }
