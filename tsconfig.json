@@ -12,7 +12,8 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "moduleResolution": "node",
-        "noUnusedLocals": true
+        "noUnusedLocals": true,
+        "types": ["reflect-metadata", "mocha"],
     },
     "compileOnSave": false,
     "include": ["./src/**/*"],

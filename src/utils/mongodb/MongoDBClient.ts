@@ -11,6 +11,11 @@ export class MongoDBClient implements IDBClient {
     return mapDbToValues(result);
   }
 
+  public async findOne<T>(collection: string, filter: Object, mapDbToValues: (user: any) => T): Promise<T> {
+    const result: any[] = await (await MongoDBConnection.getConnection()).collection(collection).findOne(filter);
+    return mapDbToValues(result);
+  }
+
   public async insert<T>(collection: string, model: T, mapValueToDb: ((user: T) => any)): Promise<InsertOneWriteOpResult> {
     return (await MongoDBConnection.getConnection()).collection(collection).insertOne(mapValueToDb(model));
   }

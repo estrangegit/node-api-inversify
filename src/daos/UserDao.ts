@@ -1,19 +1,24 @@
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../constant/Types';
-import { MongoDBClient } from '../utils/mongodb/MongoDBClient';
 import { IUserDao } from '../interfaces/IUserDao';
 import { User } from '../entities/User';
 import { InsertOneWriteOpResult, UpdateWriteOpResult } from 'mongodb';
+import { IDBClient } from '../interfaces/IDBClient';
 
 
 @injectable()
 export class UserDao implements IUserDao {
 
-    @inject(TYPES.MongoDBClient) private readonly client: MongoDBClient;
+    @inject(TYPES.MongoDBClient) private readonly client: IDBClient;
     private collection: string = 'users';
 
     public async getAllUsers(): Promise<User[]> {
         return await this.client.find<User>(this.collection, {}, UserDao.mapDbToValues);
+    }
+
+    public async getUserByName(name: string): Promise<User> {
+        console.log(name);
+        return await this.client.findOne(this.collection, {name: name}, UserDao.mapDbToValue);
     }
 
     public async addUser(user: User): Promise<InsertOneWriteOpResult> {
@@ -25,6 +30,9 @@ export class UserDao implements IUserDao {
     }
 
     private static mapDbToValue(data: any): User {
+        if(!data){
+            return null;
+        }
         return new User(data._id, data.name, data.email, data.password);
     }
 

@@ -18,6 +18,12 @@ export class UserController {
     res.send(users);
   }
 
+  @httpGet('/:name')
+  public async getUserByName(@requestParam('name') name: string, req: Request, res: Response, next: NextFunction): Promise<void> {
+    const user: User = await this.userService.getUserByName(name);
+    res.send(user);
+  }
+
   @httpPost('/')
   public async addUser (req: Request, res: Response, next: NextFunction): Promise<void> {
     const user: User = new User(undefined, req.body.name, req.body.email, req.body.password);
