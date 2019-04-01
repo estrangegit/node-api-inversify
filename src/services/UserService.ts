@@ -1,12 +1,9 @@
 import { injectable } from 'inversify';
-
-export interface IUser {
-  email: string;
-  name: string;
-}
+import { IUser } from "../interfaces/IUser";
+import { IUserService } from '../interfaces/IUserService';
 
 @injectable()
-export class UserService {
+export class UserService implements IUserService{
 
   private userStorage: IUser[] = [{
     email: 'lorem@ipsum.com',

@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { Container } from 'inversify';
 import * as bodyParser from 'body-parser';
-import './controller/home';
-import './controller/user';
+import './controllers/HomeController';
+import './controllers/UserController';
 import { iocContainerFactory } from './providers/IocContainerFactory';
 
 // load everything needed to the Container

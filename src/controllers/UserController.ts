@@ -2,14 +2,15 @@ import {
   controller, httpGet, httpPost, httpPut, httpDelete
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
-import { IUser, UserService } from '../service/user';
+import { IUser } from "../interfaces/IUser";
 import { Request } from 'express';
-import { TYPES } from '../constant/types';
+import { TYPES } from '../constant/Types';
+import { IUserService } from '../interfaces/IUserService';
 
 @controller('/user')
 export class UserController {
 
-  constructor(@inject(TYPES.UserService) private userService: UserService) { }
+  @inject(TYPES.UserService) private readonly userService: IUserService;
 
   @httpGet('/')
   public getUsers(): IUser[] {
