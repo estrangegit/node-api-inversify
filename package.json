@@ -20,7 +20,9 @@
     "inversify": "latest",
     "inversify-binding-decorators": "latest",
     "inversify-express-utils": "latest",
-    "reflect-metadata": "latest"
+    "mongodb": "latest",
+    "reflect-metadata": "latest",
+    "uuid": "latest"
   },
   "devDependencies": {
     "@types/bluebird": "latest",
@@ -28,6 +30,8 @@
     "@types/chai": "latest",
     "@types/express": "latest",
     "@types/mocha": "latest",
+    "@types/mongodb": "latest",
+    "@types/uuid": "latest",
     "chai": "latest",
     "mocha": "latest",
     "nyc": "latest",

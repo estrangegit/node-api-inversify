@@ -1,9 +1,9 @@
-import { IUser } from './IUser';
+import { User } from "../entities/User";
 
 export interface IUserService {
-    getUsers():IUser[];
-    getUser(id:string): IUser;
-    newUser(user: IUser): IUser;
-    updateUser(id: string, user: IUser): IUser;
-    deleteUser(id: string): string
+    getUsers(): Promise<User[]>;
+    getUser(name: string): User;
+    newUser(user: User): User;
+    updateUser(name: string, user: User): User;
+    deleteUser(name: string): string;
 }

@@ -1,27 +1,28 @@
-import { injectable } from 'inversify';
-import { IUser } from "../interfaces/IUser";
+import { injectable, inject } from 'inversify';
+import { User } from "../entities/User";
 import { IUserService } from '../interfaces/IUserService';
+import { TYPES } from '../constant/Types';
+import { IDBClient } from '../interfaces/IDBClient';
 
 @injectable()
 export class UserService implements IUserService{
 
-  private userStorage: IUser[] = [{
-    email: 'lorem@ipsum.com',
-    name: 'Lorem'
-  }, {
-      email: 'doloe@sit.com',
-      name: 'Dolor'
-    }];
+  @inject(TYPES.UserDao) private readonly userDao: IDBClient;
+
+  private userStorage: User[] = [
+    new User('1', 'Lorem', 'lorem@ipsum.com','xxx'),
+    new User('2', 'Dolor', 'doloe@sit.com', 'xxx')];
 
 
-  public getUsers(): IUser[] {
-    return this.userStorage;
+  public async getUsers(): Promise<User[]> {
+//    return this.userStorage;
+    return await this.userDao.find('users', {});
   }
 
-  public getUser(id: string): IUser {
-    let result: IUser;
+  public getUser(name: string): User {
+    let result: User;
     this.userStorage.map(user => {
-      if (user.name === id) {
+      if (user.name === name) {
         result = user;
       }
     });
@@ -29,14 +30,14 @@ export class UserService implements IUserService{
     return result;
   }
 
-  public newUser(user: IUser): IUser {
+  public newUser(user: User): User {
     this.userStorage.push(user);
     return user;
   }
 
-  public updateUser(id: string, user: IUser): IUser {
+  public updateUser(name: string, user: User): User {
     this.userStorage.map((entry, index) => {
-      if (entry.name === id) {
+      if (entry.name === name) {
         this.userStorage[index] = user;
       }
     });
@@ -44,15 +45,15 @@ export class UserService implements IUserService{
     return user;
   }
 
-  public deleteUser(id: string): string {
-    let updatedUser: IUser[] = [];
+  public deleteUser(name: string): string {
+    let updatedUser: User[] = [];
     this.userStorage.map(user => {
-      if (user.name !== id) {
+      if (user.name !== name) {
         updatedUser.push(user);
       }
     });
 
     this.userStorage = updatedUser;
-    return id;
+    return name;
   }
 }
